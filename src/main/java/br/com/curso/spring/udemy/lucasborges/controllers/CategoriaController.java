@@ -1,27 +1,29 @@
 package br.com.curso.spring.udemy.lucasborges.controllers;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.curso.spring.udemy.lucasborges.domain.Categoria;
+import br.com.curso.spring.udemy.lucasborges.services.CategoriaService;
 
 @RestController
 @RequestMapping(value = "/v1")
 public class CategoriaController {
+	@Autowired
+	CategoriaService service;
 
-	@GetMapping(path = "/categorias", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Categoria> listar() {
+	@GetMapping(path = "/categorias/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
 
-		Categoria c1 = new Categoria(1, "Informática");
-		Categoria c2 = new Categoria(2, "Escritório");
+		Categoria obj = service.findCatById(id);
+	
 
-		return new ArrayList<>(Arrays.asList(c1, c2));
+		return ResponseEntity.ok(obj);
 	}
 
 }
