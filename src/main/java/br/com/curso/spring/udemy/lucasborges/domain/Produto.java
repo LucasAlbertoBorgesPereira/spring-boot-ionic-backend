@@ -27,6 +27,12 @@ import lombok.NoArgsConstructor;
 public class Produto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	public Produto(String nome, BigDecimal valor) {
+		this.nome = nome;
+		this.preco = valor;
+
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -38,9 +44,4 @@ public class Produto implements Serializable {
 	@JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
 	private List<Categoria> categorias = new ArrayList<>();
 
-	public Produto(String nome, BigDecimal valor) {
-		this.nome = nome;
-		this.preco = valor;
-
-	}
 }
