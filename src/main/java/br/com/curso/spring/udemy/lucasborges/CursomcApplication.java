@@ -10,15 +10,21 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.com.curso.spring.udemy.lucasborges.domain.Categoria;
 import br.com.curso.spring.udemy.lucasborges.domain.Cidade;
+import br.com.curso.spring.udemy.lucasborges.domain.Cliente;
+import br.com.curso.spring.udemy.lucasborges.domain.Endereco;
 import br.com.curso.spring.udemy.lucasborges.domain.Estado;
 import br.com.curso.spring.udemy.lucasborges.domain.Produto;
+import br.com.curso.spring.udemy.lucasborges.domain.enums.TipoCliente;
 import br.com.curso.spring.udemy.lucasborges.repositories.CategoriaRepository;
 import br.com.curso.spring.udemy.lucasborges.repositories.CidadeRepository;
+import br.com.curso.spring.udemy.lucasborges.repositories.ClienteRepository;
+import br.com.curso.spring.udemy.lucasborges.repositories.EnderecoRepository;
 import br.com.curso.spring.udemy.lucasborges.repositories.EstadoRepository;
 import br.com.curso.spring.udemy.lucasborges.repositories.ProdutoRepository;
 
 @SpringBootApplication
 public class CursomcApplication implements CommandLineRunner {
+
 	@Autowired
 	CategoriaRepository repository;
 	@Autowired
@@ -27,6 +33,10 @@ public class CursomcApplication implements CommandLineRunner {
 	EstadoRepository estadoRepository;
 	@Autowired
 	CidadeRepository cidadeRepository;
+	@Autowired
+	EnderecoRepository enderecoRepository;
+	@Autowired
+	ClienteRepository clienteRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -34,7 +44,7 @@ public class CursomcApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		
+
 		Categoria cat1 = new Categoria("Informatica");
 		Categoria cat2 = new Categoria("Escritorio");
 
@@ -44,26 +54,36 @@ public class CursomcApplication implements CommandLineRunner {
 
 		Estado est1 = new Estado("Minas Gerais");
 		Estado est2 = new Estado("São Paulo");
-		
-		Cidade c1 =new Cidade(null, "Uberlândia",est1);
-		Cidade c2 =new Cidade(null, "São Paulo",est2);
-		Cidade c3 =new Cidade(null, "Campinas",est2);
 
-	
+		Cidade c1 = new Cidade(null, "Uberlândia", est1);
+		Cidade c2 = new Cidade(null, "São Paulo", est2);
+		Cidade c3 = new Cidade(null, "Campinas", est2);
+
 		cat1.getProdutos().addAll(Arrays.asList(p1, p2, p3));
 		cat2.getProdutos().addAll(Arrays.asList(p2));
 
 		p1.getCategorias().addAll(Arrays.asList(cat1));
 		p2.getCategorias().addAll(Arrays.asList(cat1, cat2));
 		p3.getCategorias().addAll(Arrays.asList(cat1));
-		
+
 		est1.getCidades().addAll(Arrays.asList(c1));
-		est2.getCidades().addAll(Arrays.asList(c2,c3));
+		est2.getCidades().addAll(Arrays.asList(c2, c3));
+
+		Cliente cli1 = new Cliente("Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
+
+		cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
+
+		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 203", "Jardim", "38220834", cli1, c1);
+		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, c2);
+
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
 
 		repository.saveAll(Arrays.asList(cat1, cat2));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
-		estadoRepository.saveAll(Arrays.asList(est1,est2));
-		cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
+		estadoRepository.saveAll(Arrays.asList(est1, est2));
+		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		enderecoRepository.saveAll(Arrays.asList(e1, e2));
 
 	}
 

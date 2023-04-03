@@ -24,20 +24,18 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Categoria implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	public Categoria(String nome) {
 		this.nome = nome;
 	}
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-
 	private String nome;
 
 	@JsonManagedReference
 	@ManyToMany(mappedBy = "categorias", fetch = FetchType.LAZY)
 	private List<Produto> produtos = new ArrayList<>();
-
 
 }
