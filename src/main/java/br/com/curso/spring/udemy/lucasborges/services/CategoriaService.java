@@ -1,25 +1,32 @@
 package br.com.curso.spring.udemy.lucasborges.services;
 
-import java.util.Optional;
 
+import br.com.curso.spring.udemy.lucasborges.domain.Categoria;
+import br.com.curso.spring.udemy.lucasborges.domain.Cliente;
+import br.com.curso.spring.udemy.lucasborges.repositories.CategoriaRepository;
+import jakarta.inject.Inject;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.curso.spring.udemy.lucasborges.domain.Categoria;
-import br.com.curso.spring.udemy.lucasborges.repositories.CategoriaRepository;
+import java.util.Optional;
 
 @Service
 public class CategoriaService {
 
-	@Autowired
+	final
 	CategoriaRepository repository;
 
-	public Categoria findCatById(Integer id) {
+	public CategoriaService(CategoriaRepository repository) {
+		this.repository = repository;
+	}
+
+	public Optional<Categoria> findCatById(Integer id) {
 		Optional<Categoria> obj = repository.findById(id);
-		return obj
-				.orElseThrow(() -> new ObjectNotFoundException(new StringBuilder().append("Objeto não encontrado! Id:")
-						.append(id).append(", Tipo:").append(Categoria.class.getName()).toString(), id));
+		 obj.orElseThrow(() ->
+				new ObjectNotFoundException(
+						new StringBuilder().append("Objeto não encontrado! Id:").append(id).append(", Tipo:").append(Cliente.class.getName()).toString(), id));
+		return obj;
 
 	}
 }
