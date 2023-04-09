@@ -6,7 +6,6 @@ import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.curso.spring.udemy.lucasborges.domain.Categoria;
 import br.com.curso.spring.udemy.lucasborges.domain.Cliente;
 import br.com.curso.spring.udemy.lucasborges.repositories.ClienteRepository;
 
