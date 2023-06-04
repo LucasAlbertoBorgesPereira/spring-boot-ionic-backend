@@ -1,60 +1,62 @@
 package br.com.curso.spring.udemy.lucasborges.domain;
 
+
+import jakarta.persistence.*;
+import lombok.*;
+
 import java.io.Serializable;
-import java.util.Date;
+import java.util.*;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @Entity
 public class Pedido implements Serializable {
+    /**
+     *
+     */
+    public static final long serialVersionUID = 1L;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Pedido pedido)) return false;
+        return Objects.equals(getId(), pedido.getId());
+    }
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date instante;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
-	private Pagamento pagamento;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date instante;
 
-	@ManyToOne
-	@JoinColumn(name = "cliente_id")
-	private Cliente cliente;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
+    private Pagamento pagamento;
 
-	@ManyToOne
-	@JoinColumn(name = "endereco_de_entrega_id")
-	private Endereco enderecoDeEntrega;
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
 
-	public Pedido(Date instante, Cliente cliente, Endereco enderecoDeEntrega) {
-		super();
-		this.instante = instante;
-		this.cliente = cliente;
-		this.enderecoDeEntrega = enderecoDeEntrega;
-	}
+    @ManyToOne
+    @JoinColumn(name = "endereco_de_entrega_id")
+    private Endereco enderecoDeEntrega;
 
-	
+    @OneToMany(mappedBy = "id.pedido")
+    private Set<ItemPedido> itens = new HashSet<>();
+    public Pedido(Date instante, Cliente cliente, Endereco enderecoDeEntrega) {
+        super();
+        this.instante = instante;
+        this.cliente = cliente;
+        this.enderecoDeEntrega = enderecoDeEntrega;
+
+    }
+
 
 }
