@@ -27,4 +27,8 @@ public class CategoriaService {
 		return obj;
 
 	}
+
+    public Categoria insert(Categoria catObj) {
+		return repository.save(catObj);
+    }
 }
