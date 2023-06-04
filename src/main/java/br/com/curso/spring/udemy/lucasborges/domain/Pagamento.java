@@ -2,6 +2,7 @@ package br.com.curso.spring.udemy.lucasborges.domain;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
@@ -30,6 +31,7 @@ public abstract class Pagamento implements Serializable {
 	private Integer id;
 	private Integer estado;
 
+	@JsonBackReference
 	@JoinColumn(name = "pedido_id")
 	@OneToOne
 	@MapsId
