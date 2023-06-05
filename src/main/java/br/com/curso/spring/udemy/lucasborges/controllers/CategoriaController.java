@@ -46,5 +46,12 @@ public class CategoriaController {
                 .build();
 
     }
+    @DeleteMapping  (path = "/categorias/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        service.delete(id);
+        return ResponseEntity
+                .noContent()
+                .build();
 
+    }
 }
