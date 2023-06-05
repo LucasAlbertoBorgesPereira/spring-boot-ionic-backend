@@ -20,9 +20,9 @@ public class CategoriaController {
     }
 
     @GetMapping(path = "/categorias/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Categoria find(@PathVariable Integer id) {
+    public ResponseEntity<Categoria> find(@PathVariable Integer id) {
         Optional<Categoria> obj = service.findCatById(id);
-        return obj.orElse(null);
+        return ResponseEntity.ok().body(obj.get());
     }
 
     @PostMapping(path = "/categorias", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -33,6 +33,16 @@ public class CategoriaController {
                         .fromCurrentRequest().path("/{id}")
                         .buildAndExpand(obj.getId())
                         .toUri())
+                .build();
+
+    }
+
+    @PutMapping (path = "/categorias/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> update(@RequestBody Categoria categoria, @PathVariable Integer id) {
+        categoria.setId(id);
+        Categoria obj = service.update(categoria);
+        return ResponseEntity
+                .noContent()
                 .build();
 
     }
