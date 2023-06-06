@@ -1,12 +1,14 @@
 package br.com.curso.spring.udemy.lucasborges.controllers;
 
 import br.com.curso.spring.udemy.lucasborges.domain.Categoria;
+import br.com.curso.spring.udemy.lucasborges.dto.CategoriaDTO;
 import br.com.curso.spring.udemy.lucasborges.services.CategoriaService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -17,6 +19,12 @@ public class CategoriaController {
 
     public CategoriaController(CategoriaService service) {
         this.service = service;
+    }
+
+    @GetMapping(path = "/categorias", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CategoriaDTO>> findAll() {
+        var obj = service.findAll();
+        return ResponseEntity.ok().body(obj);
     }
 
     @GetMapping(path = "/categorias/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -37,7 +45,7 @@ public class CategoriaController {
 
     }
 
-    @PutMapping (path = "/categorias/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/categorias/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> update(@RequestBody Categoria categoria, @PathVariable Integer id) {
         categoria.setId(id);
         Categoria obj = service.update(categoria);
@@ -46,7 +54,8 @@ public class CategoriaController {
                 .build();
 
     }
-    @DeleteMapping  (path = "/categorias/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @DeleteMapping(path = "/categorias/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         service.delete(id);
         return ResponseEntity
