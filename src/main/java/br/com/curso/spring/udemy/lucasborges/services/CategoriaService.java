@@ -9,7 +9,9 @@ import br.com.curso.spring.udemy.lucasborges.services.exceptions.DataIntegrityEx
 import br.com.curso.spring.udemy.lucasborges.services.exceptions.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,7 +46,6 @@ public class CategoriaService {
 
     public List<CategoriaDTO> findAll() {
         List<Categoria> categoriaList = repository.findAll();
-
         return categoriaList.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
 
     }
@@ -71,5 +72,11 @@ public class CategoriaService {
 
     }
 
-
+    public Page<CategoriaDTO> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+        PageRequest pageRequest = PageRequest.of(page - 1, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+        Page<Categoria> categoriaPages = repository.findAll(pageRequest);
+        Page<CategoriaDTO> categoriaDTOS =
+                categoriaPages.map(obj -> new CategoriaDTO(obj));
+        return categoriaDTOS;
+    }
 }

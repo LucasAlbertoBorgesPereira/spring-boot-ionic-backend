@@ -43,7 +43,13 @@ public class CursoMcApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         Categoria cat1 = new Categoria("Informatica");
-        Categoria cat2 = new Categoria("Escritorio");
+        Categoria cat2 = new Categoria("Escritório");
+        Categoria cat3 = new Categoria("Cama-mesa-banho");
+        Categoria cat4 = new Categoria("Eletrodoméstico");
+        Categoria cat5 = new Categoria("Móveis");
+        Categoria cat6 = new Categoria("SmartPhones");
+        Categoria cat7 = new Categoria("SmartTv");
+
 
         Produto p1 = new Produto("Computador", BigDecimal.valueOf(2000.00));
         Produto p2 = new Produto("Impressora", BigDecimal.valueOf(800.00));
@@ -98,7 +104,7 @@ public class CursoMcApplication implements CommandLineRunner {
         p2.getItens().addAll(Arrays.asList(ip3));
         p3.getItens().addAll(Arrays.asList(ip2));
 
-        repository.saveAll(Arrays.asList(cat1, cat2));
+        repository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4,cat5,cat6,cat7));
         produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
         estadoRepository.saveAll(Arrays.asList(est1, est2));
         cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));

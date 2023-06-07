@@ -3,6 +3,8 @@ package br.com.curso.spring.udemy.lucasborges.controllers;
 import br.com.curso.spring.udemy.lucasborges.domain.Categoria;
 import br.com.curso.spring.udemy.lucasborges.dto.CategoriaDTO;
 import br.com.curso.spring.udemy.lucasborges.services.CategoriaService;
+import jakarta.annotation.Nullable;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/v1")
+@RequestMapping(value = "/v1/categorias")
 public class CategoriaController {
     final
     CategoriaService service;
@@ -21,19 +23,30 @@ public class CategoriaController {
         this.service = service;
     }
 
-    @GetMapping(path = "/categorias", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CategoriaDTO>> findAll() {
         var obj = service.findAll();
         return ResponseEntity.ok().body(obj);
     }
 
-    @GetMapping(path = "/categorias/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/page", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Page<CategoriaDTO>>
+                            findAllPagination(@RequestParam(value = "page") @Nullable Integer page,
+                                              @RequestParam(value = "lines") @Nullable Integer linesPerPage,
+                                              @RequestParam(value = "orderBy", defaultValue = "id") String orderBy,
+                                              @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+
+
+        return ResponseEntity.ok().body(service.findPage(page, linesPerPage, orderBy, direction));
+    }
+
+    @GetMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Categoria> find(@PathVariable Integer id) {
         Optional<Categoria> obj = service.findCatById(id);
         return ResponseEntity.ok().body(obj.get());
     }
 
-    @PostMapping(path = "/categorias", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> insert(@RequestBody Categoria catObj) {
         Categoria obj = service.insert(catObj);
         return ResponseEntity
@@ -45,7 +58,7 @@ public class CategoriaController {
 
     }
 
-    @PutMapping(path = "/categorias/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> update(@RequestBody Categoria categoria, @PathVariable Integer id) {
         categoria.setId(id);
         Categoria obj = service.update(categoria);
@@ -55,7 +68,7 @@ public class CategoriaController {
 
     }
 
-    @DeleteMapping(path = "/categorias/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         service.delete(id);
         return ResponseEntity
