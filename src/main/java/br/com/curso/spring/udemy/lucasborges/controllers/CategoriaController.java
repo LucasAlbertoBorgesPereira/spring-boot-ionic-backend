@@ -4,6 +4,7 @@ import br.com.curso.spring.udemy.lucasborges.domain.Categoria;
 import br.com.curso.spring.udemy.lucasborges.dto.CategoriaDTO;
 import br.com.curso.spring.udemy.lucasborges.services.CategoriaService;
 import jakarta.annotation.Nullable;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,10 +32,10 @@ public class CategoriaController {
 
     @GetMapping(path = "/page", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Page<CategoriaDTO>>
-                            findAllPagination(@RequestParam(value = "page") @Nullable Integer page,
-                                              @RequestParam(value = "lines") @Nullable Integer linesPerPage,
-                                              @RequestParam(value = "orderBy", defaultValue = "id") String orderBy,
-                                              @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+    findAllPagination(@RequestParam(value = "page") @Nullable Integer page,
+                      @RequestParam(value = "lines") @Nullable Integer linesPerPage,
+                      @RequestParam(value = "orderBy", defaultValue = "id") String orderBy,
+                      @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
 
 
         return ResponseEntity.ok().body(service.findPage(page, linesPerPage, orderBy, direction));
@@ -47,8 +48,10 @@ public class CategoriaController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> insert(@RequestBody Categoria catObj) {
-        Categoria obj = service.insert(catObj);
+    public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO catObjDTO) {
+        Categoria obj = service.fromDTO(catObjDTO);
+        obj = service.insert(obj);
+       
         return ResponseEntity
                 .created(ServletUriComponentsBuilder
                         .fromCurrentRequest().path("/{id}")
@@ -59,9 +62,12 @@ public class CategoriaController {
     }
 
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> update(@RequestBody Categoria categoria, @PathVariable Integer id) {
+    public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO categoriaDTO, @PathVariable Integer id) {
+        Categoria categoria = service.fromDTO(categoriaDTO);
         categoria.setId(id);
-        Categoria obj = service.update(categoria);
+
+        service.update(categoria);
+
         return ResponseEntity
                 .noContent()
                 .build();

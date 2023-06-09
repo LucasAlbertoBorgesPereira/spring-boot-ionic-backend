@@ -79,4 +79,8 @@ public class CategoriaService {
                 categoriaPages.map(obj -> new CategoriaDTO(obj));
         return categoriaDTOS;
     }
+
+    public Categoria fromDTO(CategoriaDTO categoriaDTO) {
+        return new Categoria(categoriaDTO.getId(), categoriaDTO.getNome());
+    }
 }
