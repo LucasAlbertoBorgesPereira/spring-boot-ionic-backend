@@ -1,30 +1,49 @@
 package br.com.curso.spring.udemy.lucasborges.domain;
 
+
 import br.com.curso.spring.udemy.lucasborges.domain.enums.EstadoPagamento;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Objects;
+
+
 @Entity
-public class PagamentoComCartao extends Pagamento {
-
-	/**
-	 * 
-	 */
+@JsonTypeName("pagamentoComCartao")
+public class PagamentoComCartao extends Pagamento implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
-	public PagamentoComCartao(Integer id, EstadoPagamento estado, Pedido pedido, Integer numeroDaParcelas) {
-		super(id, estado.getCod(), pedido);
-		this.numeroDeParcelas = numeroDaParcelas;
-
+	private Integer numeroDeParcelas;
+	
+	public PagamentoComCartao() {
 	}
 
-	private Integer numeroDeParcelas;
+	public PagamentoComCartao(Integer id, EstadoPagamento estado, Pedido pedido, Integer numeroDeParcelas) {
+		super(id, estado, pedido);
+		this.numeroDeParcelas = numeroDeParcelas;
+	}
 
+	public Integer getNumeroDeParcelas() {
+		return numeroDeParcelas;
+	}
+
+	public void setNumeroDeParcelas(Integer numeroDeParcelas) {
+		this.numeroDeParcelas = numeroDeParcelas;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || getClass() != o.getClass()) return false;
+		if (!super.equals(o)) return false;
+		PagamentoComCartao that = (PagamentoComCartao) o;
+		return Objects.equals(numeroDeParcelas, that.numeroDeParcelas);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), numeroDeParcelas);
+	}
 }

@@ -14,17 +14,16 @@ import java.util.Optional;
 @RestController
 @RequestMapping(value = "/v1")
 public class ClienteController {
-	final
-	ClienteService service;
+    final ClienteService service;
 
-	public ClienteController(ClienteService service) {
-		this.service = service;
-	}
+    public ClienteController(ClienteService service) {
+        this.service = service;
+    }
 
-	@GetMapping(path = "/clientes/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Cliente> find(@PathVariable Integer id) {
-		Optional<Cliente> obj = Optional.ofNullable(service.findCatById(id));
-		return ResponseEntity.ok().body(obj.get());
-	}
-
+    @GetMapping(path = "/clientes/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Cliente> find(@PathVariable Integer id) {
+        Cliente obj = Optional.ofNullable(service.findCatById(id))
+                .orElseThrow(() -> new RuntimeException("Cliente not found"));
+        return ResponseEntity.ok().body(obj);
+    }
 }

@@ -2,9 +2,14 @@ package br.com.curso.spring.udemy.lucasborges.dto;
 
 import br.com.curso.spring.udemy.lucasborges.domain.Categoria;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 @Getter
@@ -13,6 +18,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class CategoriaDTO implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public CategoriaDTO(Categoria categoria) {

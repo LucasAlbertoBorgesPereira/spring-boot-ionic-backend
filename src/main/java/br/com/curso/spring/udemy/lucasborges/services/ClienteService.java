@@ -21,10 +21,9 @@ public class ClienteService {
         Optional<Cliente> obj = repository.findById(id);
 
         return obj.orElseThrow(() -> new ObjectNotFoundException(
-                new StringBuilder().append("Objeto não encontrado! Id:")
-                        .append(id).append(", Tipo:")
-                        .append(Cliente.class.getName())
-                        .toString()
+                "Objeto não encontrado! Id:" +
+                        id + ", Tipo:" +
+                        Cliente.class.getName()
                 )
         );
     }

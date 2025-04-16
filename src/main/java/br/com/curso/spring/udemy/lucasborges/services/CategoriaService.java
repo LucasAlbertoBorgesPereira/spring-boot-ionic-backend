@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CategoriaService {
@@ -32,22 +31,18 @@ public class CategoriaService {
         Optional<Categoria> obj = repository.findById(id);
         obj.orElseThrow(() ->
                 new ObjectNotFoundException(
-                        new StringBuilder()
-                                .append("Objeto não encontrado! Id:")
-                                .append(id)
-                                .append(", Tipo:")
-                                .append(Cliente.class.getName())
-                                .toString()
+                        "Objeto não encontrado! Id:" +
+                                id +
+                                ", Tipo:" +
+                                Cliente.class.getName()
                 )
         );
         return obj;
-
     }
 
     public List<CategoriaDTO> findAll() {
         List<Categoria> categoriaList = repository.findAll();
-        return categoriaList.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
-
+        return categoriaList.stream().map(CategoriaDTO::new).toList();
     }
 
     @Transactional
@@ -56,9 +51,9 @@ public class CategoriaService {
     }
 
     @Transactional
-    public Categoria update(Categoria id) {
+    public void update(Categoria id) {
         findCatById(id.getId());
-        return repository.save(id);
+        repository.save(id);
     }
 
     @Transactional
@@ -75,9 +70,7 @@ public class CategoriaService {
     public Page<CategoriaDTO> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
         PageRequest pageRequest = PageRequest.of(page - 1, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
         Page<Categoria> categoriaPages = repository.findAll(pageRequest);
-        Page<CategoriaDTO> categoriaDTOS =
-                categoriaPages.map(obj -> new CategoriaDTO(obj));
-        return categoriaDTOS;
+        return categoriaPages.map(CategoriaDTO::new);
     }
 
     public Categoria fromDTO(CategoriaDTO categoriaDTO) {

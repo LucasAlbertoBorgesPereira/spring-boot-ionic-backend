@@ -1,0 +1,56 @@
+openapi: 3.1.0
+info:
+  title: Title
+  description: Title
+  version: 1.0.0
+servers:
+  - url: 'https'
+paths:
+  /v1/categorias/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: "Busca categoria por ID"
+      responses:
+        '200':
+          description: "OK"
+    put:
+      summary: "Atualiza categoria existente"
+      responses:
+        '204':
+          description: "Sem conteúdo"
+    delete:
+      summary: "Exclui categoria por ID"
+      responses:
+        '204':
+          description: "Sem conteúdo"
+
+  /v1/clientes/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: "Busca cliente por ID"
+      responses:
+        '200':
+          description: "OK"
+
+  /v1/pedidos/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: "Busca pedido por ID"
+      responses:
+        '200':
+          description: "OK"
