@@ -33,3 +33,6 @@ replay_pid*
 *.db
 out
 gen
+
+# Maven target directory
+target/

@@ -1,6 +1,5 @@
 package br.com.curso.spring.udemy.lucasborges.dto;
 
-import br.com.curso.spring.udemy.lucasborges.domain.Endereco;
 import br.com.curso.spring.udemy.lucasborges.domain.Pedido;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +8,7 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -22,17 +22,24 @@ public class PedidoDTO implements Serializable {
     private Integer id;
     private String data;
     private String cliente;
-    private Endereco enderecoDeEntrega;
+    private EnderecoDTO enderecoDeEntrega;
     private String pagamento;
-    private String itens;
+    private List<ItemPedidoDTO> itens;
     private Double valorTotal;
 
     public PedidoDTO(Pedido pedido) {
         this.id = pedido.getId();
-        this.data = pedido.getInstante().toString();
-        this.cliente = pedido.getCliente().getNome();
-        this.enderecoDeEntrega = pedido.getEnderecoDeEntrega();
-        this.pagamento = pedido.getPagamento().toString();
+        this.data = pedido.getInstante() != null ? pedido.getInstante().toString() : null;
+        this.cliente = pedido.getCliente() != null ? pedido.getCliente().getNome() : null;
+        this.enderecoDeEntrega = new EnderecoDTO(pedido.getEnderecoDeEntrega());
+        this.pagamento = pedido.getPagamento() != null && pedido.getPagamento().getEstado() != null
+                ? pedido.getPagamento().getEstado().getDescricao()
+                : null;
+        this.itens = pedido.getItens() != null
+                ? pedido.getItens().stream()
+                .map(ItemPedidoDTO::new)
+                .toList()
+                : List.of();
         this.valorTotal = pedido.getValorTotal();
     }
 
@@ -40,11 +47,11 @@ public class PedidoDTO implements Serializable {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         PedidoDTO pedidoDTO = (PedidoDTO) o;
-        return Objects.equals(id, pedidoDTO.id) && Objects.equals(data, pedidoDTO.data) && Objects.equals(cliente, pedidoDTO.cliente) && Objects.equals(enderecoDeEntrega, pedidoDTO.enderecoDeEntrega) && Objects.equals(pagamento, pedidoDTO.pagamento) && Objects.equals(itens, pedidoDTO.itens) && Objects.equals(valorTotal, pedidoDTO.valorTotal);
+        return Objects.equals(getId(), pedidoDTO.getId()) && Objects.equals(getData(), pedidoDTO.getData()) && Objects.equals(getCliente(), pedidoDTO.getCliente()) && Objects.equals(getEnderecoDeEntrega(), pedidoDTO.getEnderecoDeEntrega()) && Objects.equals(getPagamento(), pedidoDTO.getPagamento()) && Objects.equals(getItens(), pedidoDTO.getItens()) && Objects.equals(getValorTotal(), pedidoDTO.getValorTotal());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, data, cliente, enderecoDeEntrega, pagamento, itens, valorTotal);
+        return Objects.hash(getId(), getData(), getCliente(), getEnderecoDeEntrega(), getPagamento(), getItens(), getValorTotal());
     }
 }

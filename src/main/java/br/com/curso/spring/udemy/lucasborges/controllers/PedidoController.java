@@ -26,6 +26,6 @@ public class PedidoController {
         Pedido obj = service.findById(id).orElseThrow(() -> new RuntimeException("Pedido not found"));
         initialize(obj.getCliente().getTelefones());
         PedidoDTO dto = new PedidoDTO(obj);
-        return ResponseEntity.ok().body(dto);
+        return ResponseEntity.ok(dto);
     }
 }
