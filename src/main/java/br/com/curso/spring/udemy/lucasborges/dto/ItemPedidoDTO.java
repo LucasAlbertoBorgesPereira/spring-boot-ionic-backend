@@ -1,7 +1,8 @@
 package br.com.curso.spring.udemy.lucasborges.dto;
 
-import br.com.curso.spring.udemy.lucasborges.domain.ItemPedido;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serial;
@@ -9,6 +10,8 @@ import java.io.Serializable;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ItemPedidoDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -18,13 +21,4 @@ public class ItemPedidoDTO implements Serializable {
     private Double preco;
     private ProdutoDto produto;
     private Double subTotal;
-
-
-    public ItemPedidoDTO(ItemPedido itemPedido) {
-        this.desconto = itemPedido.getDesconto();
-        this.quantidade = itemPedido.getQuantidade();
-        this.preco = itemPedido.getPreco();
-        this.produto = new ProdutoDto(itemPedido.getProduto());
-        this.subTotal = itemPedido.getSubTotal();
-    }
 }

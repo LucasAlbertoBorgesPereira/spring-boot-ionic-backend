@@ -2,6 +2,7 @@ package br.com.curso.spring.udemy.lucasborges.domain;
 
 import br.com.curso.spring.udemy.lucasborges.domain.enums.EstadoPagamento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -18,7 +19,15 @@ import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "@type"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = PagamentoComCartao.class, name = "pagamentoComCartao"),
+        @JsonSubTypes.Type(value = PagamentoComBoleto.class, name = "pagamentoComBoleto")
+})
 public class Pagamento implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;

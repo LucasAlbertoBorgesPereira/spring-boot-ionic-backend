@@ -13,37 +13,37 @@ import java.util.Objects;
 @Entity
 @JsonTypeName("pagamentoComCartao")
 public class PagamentoComCartao extends Pagamento implements Serializable {
-	@Serial
-	private static final long serialVersionUID = 1L;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-	private Integer numeroDeParcelas;
-	
-	public PagamentoComCartao() {
-	}
+    private Integer numeroDeParcelas;
 
-	public PagamentoComCartao(Integer id, EstadoPagamento estado, Pedido pedido, Integer numeroDeParcelas) {
-		super(id, estado, pedido);
-		this.numeroDeParcelas = numeroDeParcelas;
-	}
+    public PagamentoComCartao() {
+    }
 
-	public Integer getNumeroDeParcelas() {
-		return numeroDeParcelas;
-	}
+    public PagamentoComCartao(Integer id, EstadoPagamento estado, Pedido pedido, Integer numeroDeParcelas) {
+        super(id, estado, pedido);
+        this.numeroDeParcelas = numeroDeParcelas;
+    }
 
-	public void setNumeroDeParcelas(Integer numeroDeParcelas) {
-		this.numeroDeParcelas = numeroDeParcelas;
-	}
+    public Integer getNumeroDeParcelas() {
+        return numeroDeParcelas;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (o == null || getClass() != o.getClass()) return false;
-		if (!super.equals(o)) return false;
-		PagamentoComCartao that = (PagamentoComCartao) o;
-		return Objects.equals(numeroDeParcelas, that.numeroDeParcelas);
-	}
+    public void setNumeroDeParcelas(Integer numeroDeParcelas) {
+        this.numeroDeParcelas = numeroDeParcelas;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(super.hashCode(), numeroDeParcelas);
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        PagamentoComCartao that = (PagamentoComCartao) o;
+        return Objects.equals(numeroDeParcelas, that.numeroDeParcelas);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), numeroDeParcelas);
+    }
 }

@@ -133,7 +133,9 @@ public class CursoMcApplication implements CommandLineRunner {
                 EstadoPagamento.PENDENTE,
                 ped2,
                 sdf.parse("20/10/2017 00:00"),
-                sdf.parse("20/10/2017 00:00"));
+                sdf.parse("20/10/2017 00:00"),
+                "12345.67890 12345.678901 12345.678901 1 23456789012345",
+                BigDecimal.valueOf(100.00));
         ped2.setPagamento(pagto2);
 
         ItemPedido ip1 = new ItemPedido(ped1, p1, 0.0, 1, 2000.00);
