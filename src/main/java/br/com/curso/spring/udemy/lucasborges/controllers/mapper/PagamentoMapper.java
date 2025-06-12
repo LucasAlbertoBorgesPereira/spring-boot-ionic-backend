@@ -6,9 +6,7 @@ import br.com.curso.spring.udemy.lucasborges.domain.PagamentoComCartao;
 import br.com.curso.spring.udemy.lucasborges.dto.PagamentoComBoletoDTO;
 import br.com.curso.spring.udemy.lucasborges.dto.PagamentoComCartaoDTO;
 import br.com.curso.spring.udemy.lucasborges.dto.PagamentoDTO;
-import org.mapstruct.MapMapping;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface PagamentoMapper {
@@ -31,6 +29,7 @@ public interface PagamentoMapper {
         }
         return null;
     }
+
     PagamentoComCartaoDTO toDto(PagamentoComCartao entidade);
 
     PagamentoComBoletoDTO toDto(PagamentoComBoleto entidade);
